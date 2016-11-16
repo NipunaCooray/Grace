@@ -1,7 +1,7 @@
 #-------------------------------------------------
 #
 # Project created by QtCreator 2016-09-29T22:56:16
-#
+# Created by Nipuna Cooray
 #-------------------------------------------------
 
 QT       += core gui network serialport
