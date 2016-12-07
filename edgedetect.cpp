@@ -192,6 +192,12 @@ double EdgeDetect::runner(){
 
     SerialReadWrite sRead;
 
+    int counter = 0;
+
+    int previousFoldWidth = 0;
+
+    int foldWidthDiff = 0;
+
     while (1){
 
 
@@ -214,10 +220,10 @@ double EdgeDetect::runner(){
             imshow("Cam feed", cameraFeed);
 
             //foldWidth = foldWidth/2;
-            cout<<"Fold width : "<< foldWidth<<endl;
+            cout<<"New Fold width : "<< foldWidth<<endl;
 
             QString foldWidthSign = "f";
-            QString foldWidthString = QString::number(foldWidth);
+            //QString foldWidthString = QString::number(foldWidth);
             QString seperator = "\n";
 
             QString s1Sign = "p";
@@ -233,10 +239,29 @@ double EdgeDetect::runner(){
             //Differentiating between parameter values and dynamic values
 
 
+
             if(GlobalData::isDynamicValue){
+
+                previousFoldWidth = GlobalData::styleData.getDynamicFoldwidth();
+
+                //Logic to check previous fold width drastically differs from current fold width
+
+                foldWidthDiff = previousFoldWidth - foldWidth;
+
+                if(abs(foldWidthDiff)>300){
+                    cout<<"Error fold width. Using the previous value"<<endl;
+                    foldWidth = previousFoldWidth;
+                }
+
+                QString foldWidthString = QString::number(foldWidth);
+
+                cout<<"Fold width written to serial : "<<foldWidth<<endl;
+
                 sRead.writeToSerial(foldWidthSign);
                 sRead.writeToSerial(foldWidthString);
                 sRead.writeToSerial(seperator);
+
+                counter++;
 
                 //Saving dynamic foldwidth to Global styledata variable
                 GlobalData::styleData.setDynamicFoldwidth(foldWidth);
@@ -262,28 +287,28 @@ double EdgeDetect::runner(){
                 sRead.writeToSerial(s1Sign);
                 sRead.writeToSerial(speed1);
                 sRead.writeToSerial(seperator);
-                //sRead.writeToSerial(s2Sign);
+//                sRead.writeToSerial(s2Sign);
                 sRead.writeToSerial(speed2);
                 sRead.writeToSerial(seperator);
-                //sRead.writeToSerial(s3Sign);
+//                sRead.writeToSerial(s3Sign);
                 sRead.writeToSerial(speed3);
                 sRead.writeToSerial(seperator);
-                //sRead.writeToSerial(s4Sign);
+//                sRead.writeToSerial(s4Sign);
                 sRead.writeToSerial(speed4);
                 sRead.writeToSerial(seperator);
-                //sRead.writeToSerial(t1Sign);
+//                sRead.writeToSerial(t1Sign);
                 sRead.writeToSerial(tension1);
                 sRead.writeToSerial(seperator);
-                //sRead.writeToSerial(t2Sign);
+//                sRead.writeToSerial(t2Sign);
                 sRead.writeToSerial(tension2);
                 sRead.writeToSerial(seperator);
-                //sRead.writeToSerial(t3Sign);
+//                sRead.writeToSerial(t3Sign);
                 sRead.writeToSerial(tension3);
                 sRead.writeToSerial(seperator);
-                //sRead.writeToSerial(t4Sign);
+//                sRead.writeToSerial(t4Sign);
                 sRead.writeToSerial(tension4);
                 sRead.writeToSerial(seperator);
-                //sRead.writeToSerial(setupFoldWidthSign);
+//                sRead.writeToSerial(setupFoldWidthSign);
                 sRead.writeToSerial(setupFoldWidth);
                 sRead.writeToSerial(seperator);
 
@@ -291,12 +316,9 @@ double EdgeDetect::runner(){
                 GlobalData::isDynamicValue = true;
 
 
+
             }
 
-//            GlobalData::serialReadWrite.writeToSerial(foldWidthString);
-//            GlobalData::serialReadWrite.writeToSerial(seperator);
-
-//            GlobalData::serialReadWrite.readSerial();
 
 
         }
@@ -307,7 +329,7 @@ double EdgeDetect::runner(){
             break;
        }
 
-       usleep(200000);
+      // usleep(1000000);
 
        cout<< "Is dynamic val "<<GlobalData::isDynamicValue<<endl;
 

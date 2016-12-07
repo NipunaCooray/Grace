@@ -30,7 +30,7 @@ private:
 
     int rgb;
 
-   int dynamicFoldwidth;
+   int dynamicFoldwidth=600;
 
     QString view;
 

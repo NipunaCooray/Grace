@@ -29,7 +29,8 @@ SOURCES += main.cpp\
     edgedetect.cpp \
     serialreadwrite.cpp \
     player.cpp \
-    objecttracker.cpp
+    objecttracker.cpp \
+    edgedetectnew.cpp
 
 
 HEADERS  += mainwindow.h \
@@ -46,7 +47,8 @@ HEADERS  += mainwindow.h \
     edgedetect.h \
     serialreadwrite.h \
     player.h \
-    objecttracker.h
+    objecttracker.h \
+    edgedetectnew.h
 
 
 FORMS    += mainwindow.ui \
